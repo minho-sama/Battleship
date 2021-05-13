@@ -1,1 +1,25 @@
+.header{
+    margin-top: 5%;
+    display:flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
 
+.header h1{
+    font-size: 40px;
+    color: rgb(19, 19, 19);
+    text-shadow: 2px 2px 6px #1f1f1f
+}
+
+#git-icon{
+    transition: transform .5s ease-in-out;
+    color:rgb(53, 158, 255);
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px rgb(0, 0, 0);
+}
+
+#git-icon:hover{
+    transform: rotate(360deg);
+}

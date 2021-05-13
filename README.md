@@ -1,5 +1,5 @@
 # Getting Started with Create React App
-A battleship game to practice TDD
+A battleship game to practice TDD </br>
 Live preview: 
 
 
