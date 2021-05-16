@@ -81,7 +81,6 @@ test('board should report there are NO ships left', () => {
     }
     sinkVerticalShip(ship2, 3)
 
-
     expect(board.boardInfo.shipsLeft).toBeFalsy()
 
 })

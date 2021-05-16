@@ -41,6 +41,7 @@ export const GameBoard = (ownerName) => {
     const receiveHit = (coords) => {
         boardInfo.board[coords].beenHit = true;
 
+        //for AI to decide nextMove
         if(boardInfo.board[coords].ship){
             boardInfo.lastShot.hit = true
             boardInfo.lastShot.location = coords;

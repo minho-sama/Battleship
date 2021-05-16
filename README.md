@@ -1,5 +1,4 @@
-# Getting Started with Create React App
-A battleship game to practice TDD - made for The Odin Project curriculum </br>
+A battleship game to practice **TDD** - made for The Odin Project curriculum </br>
 Live preview: 
 
 

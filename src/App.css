@@ -9,8 +9,9 @@
 
 .header h1{
     font-size: 40px;
-    color: rgb(19, 19, 19);
-    text-shadow: 2px 2px 6px #1f1f1f
+    text-shadow: 2px 2px 6px #1f1f1f;
+    color: rgb(212, 212, 212);
+
 }
 
 #git-icon{
