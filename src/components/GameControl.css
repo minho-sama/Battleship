@@ -1,0 +1,50 @@
+.board-container{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10%;
+    margin-top: 5%;
+}
+
+.board{
+    display:grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    margin: 15px;
+    box-shadow: 5px 15px 35px rgb(0 0 0 / 25%);
+    background-color: rgb(44, 44, 44);
+}
+
+.cell{
+    border: 1px solid rgb(31, 31, 31);
+}
+
+.cell:hover{
+    transform: scale(1.05);
+}
+
+.ai-board{
+    cursor: pointer;
+}
+
+.ai-cell{
+    transition: 0.1s;
+}
+
+.ai-cell:hover{
+    background: whitesmoke;
+}
+
+/*gameplay colors*/
+.blue{
+    background: rgb(56, 218, 230);
+}
+
+.red{
+    background: rgb(212, 21, 21);
+}
+
+.white{
+    background: whitesmoke;
+}
