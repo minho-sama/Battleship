@@ -7,8 +7,8 @@ const Ship = (id, length, isVertical = false, startCoord) => {
 
     const isSunk = () => hitLocations.every( element => element === 'x')
 
-    const takenCells = () => {
-        let takenCells = []
+    const takenCells = (startCoord) => {
+        let takenCells = [];
         if(isVertical){
             for(let i = 0; i < length; i++){
                 takenCells.push(startCoord + i * 10)

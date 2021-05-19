@@ -4,7 +4,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 10%;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 .board{
@@ -14,6 +14,13 @@
     margin: 15px;
     box-shadow: 5px 15px 35px rgb(0 0 0 / 25%);
     background-color: rgb(44, 44, 44);
+}
+
+.container h1{
+    color:rgb(212, 212, 212);
+    text-align:center;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 6px #1b1a1a;
 }
 
 .cell{
@@ -47,4 +54,68 @@
 
 .white{
     background: whitesmoke;
+}
+
+/*welcome message, make it responsive*/
+.welcome-board{
+    margin: 10% 25% auto;
+    background-color: rgb(17, 17, 17);
+    box-shadow: 4px 4px 7px rgb(26, 26, 26);
+    width: 50%;
+    border-radius: 3px;
+    text-align: center;
+    padding: 15px;
+    color: rgb(255, 230, 0);
+    text-shadow: 2px 2px 4px black;
+}
+
+.welcome-board button{
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 7px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.welcome-board button:hover{
+    background-color: rgb(29, 29, 29);
+    transform: scale(1.1)
+}
+
+.welcome-board p{
+    margin: 30px auto 40px;
+}
+
+.welcome-board ul{
+    margin-top: 20px;
+    display: flex;
+    gap: 15%;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+}
+
+#white-grid{
+    color:whitesmoke
+}
+#blue-grid{
+    color: rgb(5, 165, 214);
+}
+#red-grid{
+    color:red;
+}
+
+@media only screen and (max-width: 700px){
+    .welcome-board{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: auto;
+        margin: 5px;
+    }
 }
