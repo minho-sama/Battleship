@@ -1,14 +1,18 @@
 import './GameControl.css'
-import React, {useEffect, useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import GameBoard from '../factories/gameBoard'
 import Ship from '../factories/ship'
 import {BsSquare} from 'react-icons/bs'
+import { cloneDeep } from 'lodash';
 
 const GameControl = () => {
     const [isGame, setIsGame] = useState(false)
     const [playerBoard, setPlayerBoard] = useState(() => GameBoard('player'));
     const [aiBoard, setAiBoard] = useState(() => GameBoard('ai'));
     const [playerShipsArray, setPlayerShipsArray] = useState([]);
+    const [aiShipsArray, setAiShipsArray] = useState([]);  
+
+    const [isPlayerTurn, setIsPlayerTurn] = useState(true)
 
     const isVertical = () => {
         if(Math.random() > 0.5){
@@ -17,13 +21,20 @@ const GameControl = () => {
         return false
     }
 
-    function startGame(){
+    function startGame () {
         setIsGame(!isGame)
-        //setting up game
+        setUpGame()
+    }
+
+    //for the restart button
+    function setUpGame(){
         generateShips('player')
-        //setting up game
+        generateShips('ai')
+        //lehet h boardból is újat kell majd csinálni, vagy elég kitörölni a board.boardInfo.boardot?
     }
     placeShipsOnBoard(playerShipsArray, playerBoard)
+    placeShipsOnBoard(aiShipsArray, aiBoard)
+    console.log(aiBoard.boardInfo.board)
 
 
 
@@ -75,8 +86,8 @@ const GameControl = () => {
 
         if(owner === 'player') {
             setPlayerShipsArray(shipsArr)
-        } else{
-            console.log('set ships for computer board')
+        } else if (owner === 'ai'){
+            setAiShipsArray(shipsArr)
         }
     }
 
@@ -107,7 +118,17 @@ const GameControl = () => {
         else if(cell.beenHit && !cell.ship){
             return 'blue'
         }
-    }   
+    }  
+    function handleAttack(owner, i){
+        if(owner === "ai"){
+            aiBoard.boardInfo.board[i].beenHit = true //receiveHit[i]
+            setAiBoard(cloneDeep(aiBoard))
+        } else{
+            console.log('hitting player board')
+        }
+    }
+
+    //validating to not hit the same cell twice, sound on attack, check every round if there's a winner, smart AI moves, gameLoop logic
 
     if(isGame) {
         return (
@@ -133,7 +154,7 @@ const GameControl = () => {
                         aiBoard.boardInfo.board.map((cell, i) => { 
                             return (
                                 <div className = {`cell ai-cell ${decideCellColorAi(cell)}`}  key = {i} 
-                                    onClick = {() =>aiBoard.receiveHit(i)}></div>
+                                    onClick = {() => handleAttack('ai',i)}></div>
                             )
                         } )
                     }
@@ -148,7 +169,7 @@ const GameControl = () => {
         return(
             <div className = "welcome-board">
                 <button className = "start" onClick = {() => startGame()}>Start game</button>
-                <p>Sink all the enemy ships to win!</p>
+                <p>Sink all enemy ships to win!</p>
                 <ul>
                     <li id = "white-grid"><BsSquare/> Ship</li>
                     <li id = "blue-grid"><BsSquare/> Water</li>

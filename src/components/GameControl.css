@@ -70,7 +70,7 @@
 }
 
 .welcome-board button{
-    background: black;
+    background-color: rgb(29, 29, 29);
     color: white;
     border: none;
     border-radius: 3px;
@@ -81,12 +81,14 @@
 }
 
 .welcome-board button:hover{
-    background-color: rgb(29, 29, 29);
+    background: white;
+    color:rgb(17, 17, 17);
     transform: scale(1.1)
 }
 
 .welcome-board p{
     margin: 30px auto 40px;
+    font-size: 20px;
 }
 
 .welcome-board ul{
