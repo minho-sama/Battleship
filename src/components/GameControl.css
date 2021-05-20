@@ -39,16 +39,26 @@
     transition: 0.1s;
 }
 
-.ai-cell:hover{
+/* .ai-cell:hover{
+    background: whitesmoke;
+}  */
+
+.white-ai:hover{
     background: whitesmoke;
 }
-
-/*gameplay colors*/
-.blue{
+.red-ai:hover{
+    background: rgb(212, 21, 21);
+}
+.blue-ai:hover{
     background: rgb(56, 218, 230);
 }
 
-.red{
+/*gameplay colors*/
+.blue, .blue-ai{
+    background: rgb(56, 218, 230);
+}
+
+.red, .red-ai{
     background: rgb(212, 21, 21);
 }
 

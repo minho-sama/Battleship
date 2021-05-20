@@ -14,7 +14,6 @@ const GameControl = () => {
     const [aiShipsArray, setAiShipsArray] = useState([]);  
 
     const [isPlayerTurn, setIsPlayerTurn] = useState(true)
-    const [numOfRounds,setNumOfRounds] = useState(0)
     const [AI, setAI] = useState(() => Player('ai'))
  
     const isVertical = () => {
@@ -97,10 +96,12 @@ const GameControl = () => {
 
     function decideCellColorAi (cell) {
         if(cell.beenHit && cell.ship){
-            return 'red'
+            return 'red-ai'
         }
         else if(cell.beenHit && !cell.ship){
-            return 'blue'
+            return 'blue-ai'
+        } else{
+            return 'white-ai'
         }
     }
 
@@ -123,25 +124,6 @@ const GameControl = () => {
             aiBoard.boardInfo.board[i].beenHit = true //receiveHit[i]
             setAiBoard(cloneDeep(aiBoard))
         } else{
-
-            // //if AI had a hit last time, convert i to:
-            // if(playerBoard.boardInfo.lastShot.hit){
-            //     i = playerBoard.boardInfo.lastShot.location + 1
-            //     console.log('converted i: ' + i)
-            //     playerBoard.boardInfo.board[i].beenHit = true
-            // } else{
-            //     console.log(i)
-            //     playerBoard.boardInfo.board[i].beenHit = true
-            // }
-                
-            // //record hit for ai
-            // console.log('recording i if lastHit = true: ' + i)
-            // if(playerBoard.boardInfo.board[i].ship){
-            //     playerBoard.boardInfo.lastShot.hit = true
-            //     playerBoard.boardInfo.lastShot.location = i;
-            //     } else{
-            //         playerBoard.boardInfo.lastShot.hit = false
-            //     }
             
             playerBoard.boardInfo.board[i].beenHit = true //ai smart version
 
