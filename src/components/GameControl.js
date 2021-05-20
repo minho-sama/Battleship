@@ -1,6 +1,7 @@
 import './GameControl.css'
 import React, {useState, useEffect} from 'react'
 import GameBoard from '../factories/gameBoard'
+import Player from '../factories/player'
 import Ship from '../factories/ship'
 import {BsSquare} from 'react-icons/bs'
 import { cloneDeep } from 'lodash';
@@ -13,7 +14,9 @@ const GameControl = () => {
     const [aiShipsArray, setAiShipsArray] = useState([]);  
 
     const [isPlayerTurn, setIsPlayerTurn] = useState(true)
-
+    const [numOfRounds,setNumOfRounds] = useState(0)
+    const [AI, setAI] = useState(() => Player('ai'))
+ 
     const isVertical = () => {
         if(Math.random() > 0.5){
             return true
@@ -34,9 +37,6 @@ const GameControl = () => {
     }
     placeShipsOnBoard(playerShipsArray, playerBoard)
     placeShipsOnBoard(aiShipsArray, aiBoard)
-    console.log(aiBoard.boardInfo.board)
-
-
 
     function generateShips(owner) {
         let shipsArr = [];
@@ -73,8 +73,6 @@ const GameControl = () => {
                             }
                         }
                         //pushing all the ship coordinates to the array
-                        console.log(ship.startCoord)
-                        console.log(ship.takenCells(ship.startCoord))
                         takenCells.push(...ship.takenCells(ship.startCoord))
                     }
 
@@ -94,8 +92,6 @@ const GameControl = () => {
     function placeShipsOnBoard(array, board){
         for (let i = 0; i < array.length; i++){
             board.placeShip(array[i], array[i].startCoord)
-
-            console.log(array[i].startCoord)
         }
     }
 
@@ -109,26 +105,103 @@ const GameControl = () => {
     }
 
     function decideCellColorPlayer (cell) {
-        if(cell.ship !== false){
-            return 'white'
-        }
-        else if(cell.beenHit && cell.ship){
+        if( cell.ship && cell.beenHit){
             return 'red'
         }
-        else if(cell.beenHit && !cell.ship){
+        else if(!cell.ship && cell.beenHit){
             return 'blue'
         }
+        else if(cell.ship){
+            return 'white'
+        }
     }  
-    function handleAttack(owner, i){
-        if(owner === "ai"){
+
+    //gameloop
+
+    function handleAttack(boardOwner, i){
+        if(boardOwner === "ai"){
             aiBoard.boardInfo.board[i].beenHit = true //receiveHit[i]
             setAiBoard(cloneDeep(aiBoard))
         } else{
-            console.log('hitting player board')
+
+            // //if AI had a hit last time, convert i to:
+            // if(playerBoard.boardInfo.lastShot.hit){
+            //     i = playerBoard.boardInfo.lastShot.location + 1
+            //     console.log('converted i: ' + i)
+            //     playerBoard.boardInfo.board[i].beenHit = true
+            // } else{
+            //     console.log(i)
+            //     playerBoard.boardInfo.board[i].beenHit = true
+            // }
+                
+            // //record hit for ai
+            // console.log('recording i if lastHit = true: ' + i)
+            // if(playerBoard.boardInfo.board[i].ship){
+            //     playerBoard.boardInfo.lastShot.hit = true
+            //     playerBoard.boardInfo.lastShot.location = i;
+            //     } else{
+            //         playerBoard.boardInfo.lastShot.hit = false
+            //     }
+            
+            playerBoard.boardInfo.board[i].beenHit = true //ai smart version
+
+            if(playerBoard.boardInfo.board[i].ship){
+                playerBoard.boardInfo.lastShot.hit = true
+                playerBoard.boardInfo.lastShot.location = i
+            } else{
+                playerBoard.boardInfo.lastShot.hit = false
+            }
+            setPlayerBoard(cloneDeep(playerBoard))      
+            
+            //checking if game is over
+            //checkIsGameOver function -> if over, , set state to winner, clean up game (arrays, true-false values, states),restart button
+            console.log(aiBoard.boardInfo.board)
+            console.error(allShipsSunk(playerBoard))
+            console.error(allShipsSunk(aiBoard))
         }
     }
 
-    //validating to not hit the same cell twice, sound on attack, check every round if there's a winner, smart AI moves, gameLoop logic
+    function playRound (boardOwner, coord){
+        //attack ai's board
+        if(boardOwner === 'ai' && isPlayerTurn){
+            if(aiBoard.boardInfo.board[coord].beenHit === true) return false //prevent hitting twice
+            handleAttack('ai', coord)
+            setIsPlayerTurn(!isPlayerTurn)
+        }
+        //attack player's board
+        else if (boardOwner === 'player' && !isPlayerTurn){
+            setTimeout(() => {
+                handleAttack('playerBoard', coord)
+            }, 250)
+            setIsPlayerTurn(!isPlayerTurn)
+            return true
+        }
+    }
+
+    
+    useEffect(() => {
+        if(!isPlayerTurn){
+            // AIattack(AI.getRandMove()) 
+
+            AIattack(AI.AI(playerBoard.boardInfo.lastShot)) //ai supersmart version
+        }
+    }, [isPlayerTurn])
+
+    function AIattack (coord){
+        if(!isPlayerTurn){
+            playRound('player', coord)
+        }
+    }
+
+    //cleaning up game and restart
+    const allShipsSunk = (board) => {
+        for (let cell of board.boardInfo.board) {
+            if(cell.ship !== false && !cell.beenHit){
+                return false
+            }
+        }
+        return true
+    };
 
     if(isGame) {
         return (
@@ -140,7 +213,7 @@ const GameControl = () => {
                     {
                         playerBoard.boardInfo.board.map((cell, i) => {
                             return (
-                                <div className = {`cell player-cell ${decideCellColorPlayer(cell)}`}  key = {i}>{i}</div>
+                                <div className = {`cell player-cell ${decideCellColorPlayer(cell)}`}  key = {i}></div>
                             )
                         } )
                     }
@@ -154,7 +227,7 @@ const GameControl = () => {
                         aiBoard.boardInfo.board.map((cell, i) => { 
                             return (
                                 <div className = {`cell ai-cell ${decideCellColorAi(cell)}`}  key = {i} 
-                                    onClick = {() => handleAttack('ai',i)}></div>
+                                    onClick = {() => playRound('ai',i)}></div>
                             )
                         } )
                     }

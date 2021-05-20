@@ -62,7 +62,7 @@ export const GameBoard = (ownerName) => {
         }
     }
 
-    return {boardInfo, receiveHit, placeShip}
+    return {boardInfo, receiveHit, placeShip, allShipsSunk}
 
 }
 

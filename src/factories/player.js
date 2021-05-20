@@ -1,5 +1,4 @@
 //csinálni egy ai-t ami figyelembe veszi h vertical v horizontal
-//csinálni legyőzhetetlen ai-t is
 
 const Player = (name) => {
 
@@ -77,6 +76,7 @@ const Player = (name) => {
     return {
         playerInfo,
         AI,
+        getRandMove,
         resetShots,
     }
 }
