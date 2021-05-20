@@ -1,5 +1,5 @@
 A battleship game to practice **TDD** - made for The Odin Project curriculum </br>
-Live preview: 
+<h1>Live preview: https://minho-sama.github.io/Battleship/</h1>
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
