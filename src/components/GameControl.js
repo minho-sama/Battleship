@@ -15,6 +15,8 @@ const GameControl = () => {
 
     const [isPlayerTurn, setIsPlayerTurn] = useState(true)
     const [AI, setAI] = useState(() => Player('ai'))
+
+    const [winner, setWinner] = useState(undefined)
  
     const isVertical = () => {
         if(Math.random() > 0.5){
@@ -32,7 +34,6 @@ const GameControl = () => {
     function setUpGame(){
         generateShips('player')
         generateShips('ai')
-        //lehet h boardból is újat kell majd csinálni, vagy elég kitörölni a board.boardInfo.boardot?
     }
     placeShipsOnBoard(playerShipsArray, playerBoard)
     placeShipsOnBoard(aiShipsArray, aiBoard)
@@ -134,19 +135,16 @@ const GameControl = () => {
                 playerBoard.boardInfo.lastShot.hit = false
             }
             setPlayerBoard(cloneDeep(playerBoard))      
-            
-            //checking if game is over
-            //checkIsGameOver function -> if over, , set state to winner, clean up game (arrays, true-false values, states),restart button
-            console.log(aiBoard.boardInfo.board)
-            console.error(allShipsSunk(playerBoard))
-            console.error(allShipsSunk(aiBoard))
+
+            //responsible for resetting
+            isGameOver()
         }
     }
 
     function playRound (boardOwner, coord){
         //attack ai's board
         if(boardOwner === 'ai' && isPlayerTurn){
-            if(aiBoard.boardInfo.board[coord].beenHit === true) return false //prevent hitting twice
+            if(aiBoard.boardInfo.board[coord].beenHit === true) return //prevent hitting twice
             handleAttack('ai', coord)
             setIsPlayerTurn(!isPlayerTurn)
         }
@@ -154,6 +152,7 @@ const GameControl = () => {
         else if (boardOwner === 'player' && !isPlayerTurn){
             setTimeout(() => {
                 handleAttack('playerBoard', coord)
+                // setIsPlayerTurn(!isPlayerTurn)
             }, 250)
             setIsPlayerTurn(!isPlayerTurn)
             return true
@@ -164,8 +163,7 @@ const GameControl = () => {
     useEffect(() => {
         if(!isPlayerTurn){
             // AIattack(AI.getRandMove()) 
-
-            AIattack(AI.AI(playerBoard.boardInfo.lastShot)) //ai supersmart version
+            AIattack(AI.AI(playerBoard.boardInfo.lastShot)) //ai smart move
         }
     }, [isPlayerTurn])
 
@@ -185,7 +183,26 @@ const GameControl = () => {
         return true
     };
 
-    if(isGame) {
+    function isGameOver(){
+        if(allShipsSunk(playerBoard)){
+            setWinner('ai')
+        }
+        else if(allShipsSunk(aiBoard)){
+            setWinner('player')
+        }
+    }
+
+    //ez csak a gombon lesz rajta
+    function resetGame(){
+        setWinner(undefined)
+        setPlayerBoard(()=> GameBoard('player'))
+        setAiBoard(()=> GameBoard('ai'))
+        setAI(() => Player('ai'))
+        setIsPlayerTurn(true)
+        setUpGame()
+    }
+
+    if(isGame && winner === undefined) {
         return (
             <>
             <div className = 'board-container'>
@@ -218,6 +235,16 @@ const GameControl = () => {
                 </div>
             </div>
             </>
+        )
+    }
+    else if(isGame && winner !== undefined){
+        return (
+            <div className = "winnerBanner">
+                {
+                    winner === 'ai' ? <h1>Game Over! AI won!</h1> : <h1>Congratz! You won!</h1>
+                }
+                <button onClick = {() => resetGame()}>Play Again</button>
+            </div>
         )
     }
     else if(!isGame){

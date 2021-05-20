@@ -9,13 +9,14 @@
 
 .header h1{
     font-size: 40px;
-    text-shadow: 2px 2px #252525;
-    color: rgb(212, 212, 212);
+    text-shadow: 3px 3px 3px #1d1d1d;
+    color: rgb(238, 235, 235);
 }
 
 #git-icon{
     transition: transform .5s ease-in-out;
     background-color: black;
+    color:rgb(56, 218, 230);;
     border-radius: 50%;
     box-shadow: 1px 1px 4px rgb(0, 0, 0);
     text-decoration: none;

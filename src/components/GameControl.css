@@ -67,7 +67,7 @@
 }
 
 /*welcome message, make it responsive*/
-.welcome-board{
+.welcome-board, .winnerBanner{
     margin: 10% 25% auto;
     background-color: rgb(17, 17, 17);
     box-shadow: 4px 4px 7px rgb(26, 26, 26);
@@ -79,7 +79,7 @@
     text-shadow: 2px 2px 4px black;
 }
 
-.welcome-board button{
+.welcome-board button, .winnerBanner button{
     background-color: rgb(37, 37, 37);
     color: white;
     border: none;
@@ -90,7 +90,7 @@
     transition: 0.2s;
 }
 
-.welcome-board button:hover{
+.welcome-board button:hover, .winnerBanner button:hover{
     background: white;
     color:rgb(17, 17, 17);
     transform: scale(1.1)

@@ -22,12 +22,6 @@ export const GameBoard = (ownerName) => {
 
     const allShipsSunk = () => {
         for (let cell of boardInfo.board) {
-            // if (cell.ship !== false){
-            //     if(cell.beenHit === false){
-            //         boardInfo.shipsLeft = true
-            //         return
-            //     }
-            // }
 
             if(cell.ship !== false && !cell.beenHit){
                 boardInfo.shipsLeft = true
